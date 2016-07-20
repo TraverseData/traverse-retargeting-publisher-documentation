@@ -1,24 +1,24 @@
-Traverse Email Retargeting publisher documentation
---------------------------------------------------
+# Traverse Email Retargeting publisher documentation
 
-Contents
---------
 
-  * [Overview](#overview)
-  * [Getting started](#getting-started)
-  * [Syncing your suppression list(s)](#syncing-your-suppression-lists)
-  * [Syncing your subscribers](#syncing-your-subscribers)
-  * [Setting up your template(s)](#setting-up-your-templates)
-  * [Example](#example)
-  * [Best practices](#best-practices)
+## Contents
 
-Overview
---------
+  1. [Overview](#overview)
+  2. [Getting started](#getting-started)
+  3. [Syncing your suppression list(s)](#syncing-your-suppression-lists)
+    1. [Creating a suppression list](#creating-a-suppression-list)
+    2. [Suppression list representation](#suppression-list-representation)
+    3. [Updating a suppression list](#updating-a-suppression-list)
+  4. [Syncing your subscribers](#syncing-your-subscribers)
+  4. [Setting up your template(s)](#setting-up-your-templates)
+  5. [Example](#example)
+  6. [Best practices](#best-practices)
+
+## Overview
 
 Traverse Email Retargeting allows marketers to send publisher-branded email advertisements to your subscribers.
 
-Getting started
----------------
+## Getting started
 
 To get started with Traverse Email Retargeting:
 
@@ -26,35 +26,32 @@ To get started with Traverse Email Retargeting:
  2. [Sync your subscribers](#syncing-your-subscribers).
  3. [Set up your email template(s)](#setting-up-your-templates).
 
-Syncing your suppression list(s)
---------------------------------
+## Syncing your suppression list(s)
 
 In order to sync a suppression list:
 
  1. [Create a suppression list](#creating-a-suppression-list).
  2. [Upload its contents](#updating-a-suppression-list).
- 3. Automate repeating step 2 at least once per week.
+ 3. Repeat (automate) step 2 at least once per week.
 
-Creating a suppression list
----------------------------
+### Creating a suppression list
 
-To create a suppression list, upload a [representation](#suppression-list-representation) without an `id` to:
+To create a suppression list, upload a [representation](#suppression-list-representation), without an `id`, to:
 ```
 POST https://retargeting.traversedlp.com/v1/blacklist
 ```
 
-The response will be an updated [representation](#suppression-list-representation) including an `id`.
+The response will be an updated [representation](#suppression-list-representation) that includes an `id`.
 
 Notes:
 
- 1. Do not include the `id` field. The system will assign one for you.
+ 1. Do not include the `id`. The system will assign one for you.
  2. This just creates an empty list. You still need to [upload its contents](#updating-a-suppression-list).
- 3. Record the returned `id` so you can update the list.
+ 3. Make note of the returned `id` so that you can update the list.
 
-Suppression list representation
--------------------------------
+### Suppression list representation
 
-Suppression lists are represented by a JSON object with the following name/value pairs:
+Suppression lists are represented by a JSON object with the following fields::
 
 | Name          | Value                                | Required |
 | ------------- |--------------------------------------|----------|
@@ -72,29 +69,43 @@ For example:
 }
 ```
 
-Updating a suppression list's recipients
-----------------------------------------
+### Updating a suppression list
 
 To update a suppression list's recipients, upload a CSV:
 ```
 PUT https://retargeting.traversedlp.com/v1/blacklist/{id}/hashes
 ```
 
-The CSV should look as follows:
+Format:
 
- 1. Please format per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
- 2. A header row, consisting of the column names, is required.
- 3. At least one of the columns must be named `emailMdLower` or `emailSha1Lower`.
+ 1. Be formatted per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+ 2. Contain a header row, consisting of the column names.
+ 3. <a id="f1">At least one of the `emailMdLower` or `emailSha1Lower` columns is required.</a>
+ 4. Additional columns should not be included, and will be ignored.
 
-The CSV must contain the following columns: 
+Columns:
 
-| Name          | Value                                | Required |
-| ------------- |--------------------------------------|----------|
-| `id`          | Traverse-generated unique identifier | No       |
-| `name`        | Client-supplied name                 | No       |
-| `description` | Client-supplied description          | No       |
+| Name             | Value                                           | Required                |
+|------------------|-------------------------------------------------|-------------------------|
+| `emailMd5Lower`  | MD5 hash of trimmed, lowercased email address   | No<sup id="a1">[3](#f1) |
+| `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address | No<sup id="a1">[3](#f1) |
+
+For example:
+```
+emailMd5Lower,emailSha256Lower
+ba9d46a037766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531
+52245908b2816145e7b101c4304982c6f33df9e4,380236b305e0e37b2bfae587966c34e2
+```
 
 
+
+| Name             | Value                                           | Required                |
+|------------------|-------------------------------------------------|-------------------------|
+| `emailMd5Lower`  | MD5 hash of trimmed, lowercased email address   | No<sup id="a1">[3](#f1) |
+| `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address | No<sup id="a1">[3](#f1) |
+| `ip`             | Opt-in IP address                               | Yes                     |
+| `source`         | Opt-in source (URL or domain name)              | Yes                     |
+| `timestamp`      | Opt-in timestamp (<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601 timestamp</a> | Yes |
 
 
 
