@@ -7,11 +7,15 @@
   2. [Getting started](#getting-started)
   3. [Syncing your suppression list(s)](#syncing-your-suppression-lists)
     1. [Creating a suppression list](#creating-a-suppression-list)
-    2. [Suppression list representation](#suppression-list-representation)
+    2. [Suppression-list representation](#suppression-list-representation)
     3. [Updating a suppression list](#updating-a-suppression-list)
+    4. [Listing your suppression lists](#listing-your-suppression-lists)
   4. [Syncing your subscribers](#syncing-your-subscribers)
-  4. [Setting up your template(s)](#setting-up-your-templates)
-  5. [Example](#example)
+    1. [Creating a subscriber list](#creating-a-subscriber-list)
+    2. [Subscriber-list representation](#subscriber-list-representation)
+    3. [Updating a subscriber list](#updating-a-subscriber-list)
+    4. [Listing your subscriber lists](#listing-your-subscriber-lists)
+  5. [Setting up your template(s)](#setting-up-your-templates)
   6. [Best practices](#best-practices)
 
 ## Overview
@@ -41,7 +45,7 @@ To create a suppression list, upload a [representation](#suppression-list-repres
 POST https://retargeting.traversedlp.com/v1/blacklist
 ```
 
-The response will be an updated [representation](#suppression-list-representation) that includes an `id`.
+The response will contain an updated [representation](#suppression-list-representation), with an `id`.
 
 Notes:
 
@@ -49,7 +53,7 @@ Notes:
  2. This just creates an empty list. You still need to [upload its contents](#updating-a-suppression-list).
  3. Make note of the returned `id` so that you can update the list.
 
-### Suppression list representation
+### Suppression-list representation
 
 Suppression lists are represented by a JSON object with the following fields::
 
@@ -73,13 +77,13 @@ For example:
 
 To update a suppression list's recipients, upload a CSV:
 ```
-PUT https://retargeting.traversedlp.com/v1/blacklist/{id}/hashes
+PUT https://retargeting.traversedlp.com/v1/blacklists/{id}/hashes
 ```
 
 Format:
 
- 1. Be formatted per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
- 2. Contain a header row, consisting of the column names.
+ 1. Commas, quotes and newlines per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+ 2. A  header row, consisting of the column names, is required.
  3. <a id="f1">At least one of the `emailMdLower` or `emailSha1Lower` columns is required.</a>
  4. Additional columns should not be included, and will be ignored.
 
@@ -97,7 +101,75 @@ ba9d46a037766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531
 52245908b2816145e7b101c4304982c6f33df9e4,380236b305e0e37b2bfae587966c34e2
 ```
 
+A successful response will have a 2xx status code.
 
+### Listing your suppression lists
+
+To list your suppression lists:
+```
+GET https://retargeting.traversedlp.com/v1/blacklists
+```
+
+The response will include a JSON array of [representations](#suppression-list-representation).
+
+## Syncing your subscriber list(s)
+
+In order to sync a subscriber list:
+
+ 1. [Create a subscriber list](#creating-a-subscriber-list).
+ 2. [Upload its contents](#updating-a-subscriber-list).
+ 3. Repeat (automate) step 2 at least once per month.
+
+### Creating a subscriber list
+
+To create a subscriber list, upload a [representation](#subscriber-list-representation), without an `id`, to:
+```
+POST https://retargeting.traversedlp.com/v1/list
+```
+
+The response will contain an updated [representation](#subscriber-list-representation), with an `id`.
+
+Notes:
+
+ 1. Do not include the `id`. The system will assign one for you.
+ 2. This just creates an empty list. You still need to [upload its contents](#updating-a-subscriber-list).
+ 3. Make note of the returned `id` so that you can update the list.
+
+### Subscriber-list representation
+
+Subscriber lists are represented by a JSON object with the following fields::
+
+| Name          | Value                                | Required |
+| ------------- |--------------------------------------|----------|
+| `id`          | Traverse-generated unique identifier | No       |
+| `name`        | Client-supplied name                 | No       |
+| `description` | Client-supplied description          | No       |
+
+For example:
+
+```javascript
+{
+  id: "92afb81d-260e-49f0-b918-9960de0dd056",
+  name: "openers",
+  description: "Subscribers who have opened in the past 60 days"
+}
+```
+
+### Updating a subscriber list
+
+To update a subscriber list's recipients, upload a CSV:
+```
+PUT https://retargeting.traversedlp.com/v1/lists/{id}/hashes
+```
+
+Format:
+
+ 1. Commas, quotes and newlines per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+ 2. A  header row, consisting of the column names, is required.
+ 3. <a id="f1">At least one of the `emailMdLower` or `emailSha1Lower` columns is required.</a>
+ 4. Additional columns should not be included, and will be ignored.
+
+Columns:
 
 | Name             | Value                                           | Required                |
 |------------------|-------------------------------------------------|-------------------------|
@@ -105,108 +177,22 @@ ba9d46a037766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531
 | `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address | No<sup id="a1">[3](#f1) |
 | `ip`             | Opt-in IP address                               | Yes                     |
 | `source`         | Opt-in source (URL or domain name)              | Yes                     |
-| `timestamp`      | Opt-in timestamp (<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601 timestamp</a> | Yes |
+| `timestamp`      | Opt-in timestamp (<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> date/timestamp, nominally UTC) | Yes |
 
-
-
-`Subscriber` object
--------------------
-
-In order to sync a suppression list, you first have to create a `blacklist` object.
-
-Create a subscriber list by sending an HTTP POST to the following URL:
-
+For example:
 ```
-https://retargeting.traversedlp.com/v1/subscribers
+emailMd5Lower,emailSha256Lower,ip,source,timestamp
+ba9d46a037766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531,1.2.3.4,example.com,2016-07-20Z
+52245908b2816145e7b101c4304982c6f33df9e4,380236b305e0e37b2bfae587966c34e2,5.6.7.8,example.com,2015-01-23T20:21:26Z
 ```
 
+A successful response will have a 2xx status code.
 
+### Listing your subscriber lists
 
-
-Parameters:
-
-
-
-Create a suppression list 
-
-
-Syncing your subscribers
--------------------------------
-
-At least once per week, send us your subscriber list via HTTP POST to:
-
+To list your subscriber lists:
 ```
-https://retargeting.traversedlp.com/v1/subscribed
+GET https://retargeting.traversedlp.com/v1/lists
 ```
 
-`foo`
-
-Setting up your template(s)
----------------------------
-
-The advertising emails 
-
-To use Traverse in email, include our [Pixel Block](#pixel-block) in your messages.
-
-Please see the [example](#example) and [best practices](#best-practices), below.
-
-Pixel Block
------------
-
-The Pixel Block is a series of generic pixels that redirect to specific pixels when loaded. This way you won't need to update your integration as new partners are added.
-
-Each pixel has the following form:
- 
->\<img border="0" width="1" height="1" src="http://`domain`/v1/`clientId`/`index`.gif?`hashType`=`hashValue`"/\>
-
-Hashes
-------
-
-Our match partners expect compute hashes using varying schemes. Most want the email address converted to lowercase before hashing; however, some want it hashed using MD5 whereas others want SHA-1.
-
-The following `hashType`s are supported:
-
-| Parameter    | Description | *Recommended* |
-| ------------ |------------ | ------------- |
-| `emailMd5Lower` | MD5 hash of lowercase email address. | Yes |
-| `emailSha1Lower` | SHA1 hash of lowercase email address. | Yes |
-| `emailMd5Upper` | MD5 hash of *uppercase* email address. | No |
-| `emailSha1Upper` | SHA1 hash of *uppercase* email address. | No |
-
-For example, if the email address is `foo@BAR.com`, then `emailMd5Upper` would be `6d881a14e8fb4886b2742f0b4aa10d30`.
-
-To accommodate the greatest number of partners, you would include pixels for all four `identifiers`. However, at minimum, you should include pixels for both `emailMd5Lower` and `emailSha1Lower`.
-
-Domain
-------
-
-Our pixels are hosted at `email.traversedlp.com`. However, in order to protect your deliverability, you should serve them from a domain you control, via a [CNAME record](https://en.wikipedia.org/wiki/CNAME_record).
-
-For example, if your sending domain is `example.com`, you could create a CNAME record for `traverse.example.com` that resolves to `email.traversedlp.com`, and then use that subdomain in the [Pixel Block](#pixel-block).
-
-Example
--------
-
-Suppose you control `example.com`, have set up a [CNAME record](#domain) pointing `traverse.example.com` to `email.traversedlp.com`, and you're sending an email to `foo@BAR.com`.
-
-Include at least 5 pixels with `emailMd5Lower`, and at least 5 more with `emailSha1Lower`, like so (*notice the changing `index`*):
-
-```
-<img border="0" width="1" height="1" src="http://traverse.example.com/v1/YOUR-CLIENT-ID-HERE/0.gif?emailMd5Lower=f3ada405ce890b6f8204094deb12d8a8"/>
-<img border="0" width="1" height="1" src="http://traverse.example.com/v1/YOUR-CLIENT-ID-HERE/1.gif?emailMd5Lower=f3ada405ce890b6f8204094deb12d8a8"/>
-<img border="0" width="1" height="1" src="http://traverse.example.com/v1/YOUR-CLIENT-ID-HERE/2.gif?emailMd5Lower=f3ada405ce890b6f8204094deb12d8a8"/>
-<img border="0" width="1" height="1" src="http://traverse.example.com/v1/YOUR-CLIENT-ID-HERE/3.gif?emailMd5Lower=f3ada405ce890b6f8204094deb12d8a8"/>
-<img border="0" width="1" height="1" src="http://traverse.example.com/v1/YOUR-CLIENT-ID-HERE/4.gif?emailMd5Lower=f3ada405ce890b6f8204094deb12d8a8"/>
-<img border="0" width="1" height="1" src="http://traverse.example.com/v1/YOUR-CLIENT-ID-HERE/0.gif?emailSha1Lower=823776525776c8f23a87176c59d25759da7a52c4"/>
-<img border="0" width="1" height="1" src="http://traverse.example.com/v1/YOUR-CLIENT-ID-HERE/1.gif?emailSha1Lower=823776525776c8f23a87176c59d25759da7a52c4"/>
-<img border="0" width="1" height="1" src="http://traverse.example.com/v1/YOUR-CLIENT-ID-HERE/2.gif?emailSha1Lower=823776525776c8f23a87176c59d25759da7a52c4"/>
-<img border="0" width="1" height="1" src="http://traverse.example.com/v1/YOUR-CLIENT-ID-HERE/3.gif?emailSha1Lower=823776525776c8f23a87176c59d25759da7a52c4"/>
-<img border="0" width="1" height="1" src="http://traverse.example.com/v1/YOUR-CLIENT-ID-HERE/4.gif?emailSha1Lower=823776525776c8f23a87176c59d25759da7a52c4"/>
-```
-
-Best practices
---------------
-
-1. Always serve the pixels from [a domain you control](#domain).
-2. Always include at least 5 pixels with `emailMd5Lower`, and at least 5 more with `emailSha1Lower`.
-3. Only include the pixels in HTML emails.
+The response will include a JSON array of [representations](#subscriber-list-representation).
