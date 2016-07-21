@@ -34,13 +34,13 @@ To get started with Traverse Email Retargeting:
  4. [Sync your subscribers](#syncing-your-subscribers).
  5. [Set up your template(s)](#setting-up-your-templates).
 
-## Authentication
+### Authentication
 
 **Important!** *All API calls are authenticated via <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">basic auth</a>.*
 
 Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact Traverse</a> for credentials.
 
-## Error handling
+### Error handling
 
 While we make every attempt to maintain the availability of our system, unexpected errors may occur:
 
