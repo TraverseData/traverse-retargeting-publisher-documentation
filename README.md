@@ -4,21 +4,21 @@
 
   1. [Overview](#overview)
   2. [Getting started](#getting-started)
-  3. [Authentication](#authentication)
-  4. [Error handling](#error-handling)
-  5. [Syncing your suppression list(s)](#syncing-your-suppression-lists)
+    1. [Authentication](#authentication)
+    2. [Error handling](#error-handling)
+  3. [Syncing your suppression list(s)](#syncing-your-suppression-lists)
     1. [Creating a suppression list](#creating-a-suppression-list)
     2. [Suppression-list representation](#suppression-list-representation)
     3. [Updating a suppression list](#updating-a-suppression-list)
     4. [Listing your suppression lists](#listing-your-suppression-lists)
     5. [Suppressing individual recipients](#suppressing-individual-recipients)
-  6. [Syncing your subscribers](#syncing-your-subscribers)
+  4. [Syncing your subscribers](#syncing-your-subscribers)
     1. [Creating a subscriber list](#creating-a-subscriber-list)
     2. [Subscriber-list representation](#subscriber-list-representation)
     3. [Updating a subscriber list](#updating-a-subscriber-list)
     4. [Listing your subscriber lists](#listing-your-subscriber-lists)
-  7. [Setting up your template(s)](#setting-up-your-templates)
-  8. [Best practices](#best-practices)
+  5. [Setting up your template(s)](#setting-up-your-templates)
+  6. [Best practices](#best-practices)
 
 ## Overview
 
