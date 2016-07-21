@@ -1,6 +1,5 @@
 # Traverse Email Retargeting publisher documentation
 
-
 ## Contents
 
   1. [Overview](#overview)
@@ -20,7 +19,7 @@
 
 ## Overview
 
-Traverse Email Retargeting allows marketers to send publisher-branded email advertisements to your subscribers.
+Traverse Email Retargeting allows marketers to target publisher-branded email advertisements to your subscribers.
 
 ## Getting started
 
@@ -28,13 +27,13 @@ To get started with Traverse Email Retargeting:
 
  1. [Sync your suppression list(s)](#syncing-your-suppression-lists).
  2. [Sync your subscribers](#syncing-your-subscribers).
- 3. [Set up your email template(s)](#setting-up-your-templates).
+ 3. [Set up your template(s)](#setting-up-your-templates).
 
 ## Syncing your suppression list(s)
 
 In order to sync a suppression list:
 
- 1. [Create a suppression list](#creating-a-suppression-list).
+ 1. [Create the list](#creating-a-suppression-list).
  2. [Upload its contents](#updating-a-suppression-list).
  3. Repeat (automate) step 2 at least once per week.
 
@@ -82,7 +81,7 @@ PUT https://retargeting.traversedlp.com/v1/blacklists/{id}/hashes
 
 Format:
 
- 1. Commas, quotes and newlines per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+ 1. Commas, quotes and line terminators per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
  2. A  header row, consisting of the column names, is required.
  3. <a id="f1">At least one of the `emailMdLower` or `emailSha1Lower` columns is required.</a>
  4. Additional columns should not be included, and will be ignored.
@@ -116,7 +115,7 @@ The response will include a JSON array of [representations](#suppression-list-re
 
 In order to sync a subscriber list:
 
- 1. [Create a subscriber list](#creating-a-subscriber-list).
+ 1. [Create the list](#creating-a-subscriber-list).
  2. [Upload its contents](#updating-a-subscriber-list).
  3. Repeat (automate) step 2 at least once per month.
 
@@ -164,26 +163,24 @@ PUT https://retargeting.traversedlp.com/v1/lists/{id}/hashes
 
 Format:
 
- 1. Commas, quotes and newlines per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+ 1. Commas, quotes and line terminators per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
  2. A  header row, consisting of the column names, is required.
- 3. <a id="f1">At least one of the `emailMdLower` or `emailSha1Lower` columns is required.</a>
- 4. Additional columns should not be included, and will be ignored.
+ 3. Any columns not listed below should not be included, and will be ignored.
 
 Columns:
 
-| Name             | Value                                           | Required                |
-|------------------|-------------------------------------------------|-------------------------|
-| `emailMd5Lower`  | MD5 hash of trimmed, lowercased email address   | No<sup id="a1">[3](#f1) |
-| `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address | No<sup id="a1">[3](#f1) |
-| `ip`             | Opt-in IP address                               | Yes                     |
-| `source`         | Opt-in source (URL or domain name)              | Yes                     |
+| Name             | Value                              | Required |
+|------------------|------------------------------------|----------|
+| `email`          | Email address                      | Yes      |
+| `ip`             | Opt-in IP address                  | Yes      |
+| `source`         | Opt-in source (URL or domain name) | Yes      |
 | `timestamp`      | Opt-in timestamp (<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> date/timestamp, nominally UTC) | Yes |
 
 For example:
 ```
-emailMd5Lower,emailSha256Lower,ip,source,timestamp
-ba9d46a037766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531,1.2.3.4,example.com,2016-07-20Z
-52245908b2816145e7b101c4304982c6f33df9e4,380236b305e0e37b2bfae587966c34e2,5.6.7.8,example.com,2015-01-23T20:21:26Z
+email,ip,source,timestamp
+somebody@example.com,1.2.3.4,example.com,2016-07-20Z
+operations@traversedlp.com,5.6.7.8,example.com,2015-01-23T20:21:26Z
 ```
 
 A successful response will have a 2xx status code.
@@ -196,3 +193,9 @@ GET https://retargeting.traversedlp.com/v1/lists
 ```
 
 The response will include a JSON array of [representations](#subscriber-list-representation).
+
+## Setting up your templates
+
+Traverse Email Retargeting uses your template for all advertising email sent to your lists.
+
+Before we can start sending mail, please send your HTML header and footer 
