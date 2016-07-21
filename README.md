@@ -4,18 +4,20 @@
 
   1. [Overview](#overview)
   2. [Getting started](#getting-started)
-  3. [Syncing your suppression list(s)](#syncing-your-suppression-lists)
+  3. [Authentication](#authentication)
+  4. [Error handling](#error-handling)
+  5. [Syncing your suppression list(s)](#syncing-your-suppression-lists)
     1. [Creating a suppression list](#creating-a-suppression-list)
     2. [Suppression-list representation](#suppression-list-representation)
     3. [Updating a suppression list](#updating-a-suppression-list)
     4. [Listing your suppression lists](#listing-your-suppression-lists)
-  4. [Syncing your subscribers](#syncing-your-subscribers)
+  6. [Syncing your subscribers](#syncing-your-subscribers)
     1. [Creating a subscriber list](#creating-a-subscriber-list)
     2. [Subscriber-list representation](#subscriber-list-representation)
     3. [Updating a subscriber list](#updating-a-subscriber-list)
     4. [Listing your subscriber lists](#listing-your-subscriber-lists)
-  5. [Setting up your template(s)](#setting-up-your-templates)
-  6. [Best practices](#best-practices)
+  7. [Setting up your template(s)](#setting-up-your-templates)
+  8. [Best practices](#best-practices)
 
 ## Overview
 
@@ -26,15 +28,26 @@ Traverse Email Retargeting allows marketers to send publisher-branded email adve
 To get started with Traverse Email Retargeting:
 
  1. [Get credentials](#authentication).
- 2. [Sync your suppression list(s)](#syncing-your-suppression-lists).
- 3. [Sync your subscribers](#syncing-your-subscribers).
- 4. [Set up your template(s)](#setting-up-your-templates).
+ 2. [Review the error-handling guidance](#error-handling).
+ 3. [Sync your suppression list(s)](#syncing-your-suppression-lists).
+ 4. [Sync your subscribers](#syncing-your-subscribers).
+ 5. [Set up your template(s)](#setting-up-your-templates).
 
 ## Authentication
 
 **Important!** *All API calls are authenticated via <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">basic auth</a>.*
 
 Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact Traverse</a> for credentials.
+
+## Error handling
+
+While we make every attempt to maintain the availability of our system, unexpected errors may occur:
+
+ 1. Always check whether the HTTP status code  is *<a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#2xx_Success">2xx</a>* (success) before proceeding, and abort if not.
+ 2. If the status code is *<a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_Client_Error">4xx</a>* (client error), your request is likely invalid. Review the documentation before retrying.
+ 3. If the status code is *<a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_Server_Error">5xx</a>* (server error), there is likely a problem on our end. Please retry after 60 seconds.
+ 4. Otherwise, treat any unexpected response, status code, timeout or exception as a *5xx*.
+ 5. Log your requests and replies, and monitor for and review any failures.
 
 ## Syncing your suppression list(s)
 
