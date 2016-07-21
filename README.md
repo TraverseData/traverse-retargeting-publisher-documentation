@@ -216,6 +216,8 @@ The response will include a JSON array of [representations](#subscriber-list-rep
 
 ## Setting up your templates
 
-Traverse Email Retargeting uses your template for all advertising email sent to your lists.
+Traverse Email Retargeting uses your branded template for all advertising email sent to your subscribers.
 
-Before we can start sending mail, please send your HTML header and footer 
+Before we can start sending mail, please send us your HTML header and footer.
+
+Please also indicate which subscriber and suppression list(s) to use for each template.
