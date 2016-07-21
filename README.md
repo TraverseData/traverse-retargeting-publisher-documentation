@@ -11,6 +11,7 @@
     2. [Suppression-list representation](#suppression-list-representation)
     3. [Updating a suppression list](#updating-a-suppression-list)
     4. [Listing your suppression lists](#listing-your-suppression-lists)
+    5. [Suppressing individual recipients](#suppressing-individual-recipients)
   6. [Syncing your subscribers](#syncing-your-subscribers)
     1. [Creating a subscriber list](#creating-a-subscriber-list)
     2. [Subscriber-list representation](#subscriber-list-representation)
@@ -56,6 +57,7 @@ In order to sync a suppression list:
  1. [Create the list](#creating-a-suppression-list).
  2. [Upload its contents](#updating-a-suppression-list).
  3. Repeat (automate) step 2 at least once per week.
+ 4. [Send us any new suppressions in real time](#suppressing-individual-recipients).
 
 ### Creating a suppression list
 
@@ -94,6 +96,8 @@ For example:
 
 ### Updating a suppression list
 
+**Important!** *In order to avoid deliverability issues, it is essential that we also receive new suppressions [in real-time](#suppressing-individual-recipients), so that they can be applied immediately.*
+
 To update a suppression list's recipients, upload a CSV:
 ```
 PUT https://retargeting.traversedlp.com/v1/blacklists/{id}/hashes
@@ -115,7 +119,7 @@ Columns:
 
 For example:
 ```
-emailMd5Lower,emailSha256Lower
+emailMd5Lower,emailSha1Lower
 ba9d46a037766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531
 52245908b2816145e7b101c4304982c6f33df9e4,380236b305e0e37b2bfae587966c34e2
 ```
@@ -130,6 +134,31 @@ GET https://retargeting.traversedlp.com/v1/blacklists
 ```
 
 The response will include a JSON array of [representations](#suppression-list-representation).
+
+## Suppressing individual recipients
+
+**Important!** *In order to avoid deliverability issues, it is essential that we also receive suppressions [in a weekly batch](#updating-a-suppression-list), so that no records are lost in the unlikely case of temporary system unavailability.*
+
+In order to add an individual recipient to a blacklist, upload their representation to:
+```
+POST https://retargeting.traversedlp.com/v1/blacklist/{id}/hash
+```
+
+Individual recipients on a suppression list are represented by a JSON object with <a id="f1">(*) one or more of the following fields</a>:
+
+| Name             | Value                                           | Required                |
+|------------------|-------------------------------------------------|-------------------------|
+| `emailMd5Lower`  | MD5 hash of trimmed, lowercased email address   | No<sup id="a1">[*](#f2) |
+| `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address | No<sup id="a1">[*](#f2) |
+
+For example:
+
+```javascript
+{
+  emailMd5Lower: "ba9d46a037766855efca2730031bfc5db095c654",
+  emailSha1Lower: "1105677c8d9decfa1e36a73ff5fb5531"
+}
+```
 
 ## Syncing your subscriber list(s)
 
