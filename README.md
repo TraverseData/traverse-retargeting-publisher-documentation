@@ -12,12 +12,14 @@
     3. [Updating a suppression list](#updating-a-suppression-list)
     4. [Listing your suppression lists](#listing-your-suppression-lists)
     5. [Suppressing individual recipients](#suppressing-individual-recipients)
+    6. [Suppression webhook](#suppression-webhook)
   4. [Syncing your subscribers](#syncing-your-subscribers)
     1. [Creating a subscriber list](#creating-a-subscriber-list)
     2. [Subscriber-list representation](#subscriber-list-representation)
     3. [Updating a subscriber list](#updating-a-subscriber-list)
     4. [Listing your subscriber lists](#listing-your-subscriber-lists)
   5. [Setting up your template(s)](#setting-up-your-templates)
+    1. [Unsubscribe webhook](#unsubscribe-webhook)
   6. [Best practices](#best-practices)
 
 ## Overview
@@ -32,7 +34,8 @@ To get started with Traverse Email Retargeting:
  2. [Review the error-handling guidance](#error-handling).
  3. [Sync your suppression list(s)](#syncing-your-suppression-lists).
  4. [Sync your subscribers](#syncing-your-subscribers).
- 5. [Set up your template(s)](#setting-up-your-templates).
+ 5. [Listen for unsubscribes](#unsubscribe-webhook).
+ 6. [Set up your template(s)](#setting-up-your-templates).
 
 ### Authentication
 
@@ -245,8 +248,25 @@ The response will include a JSON array of [representations](#subscriber-list-rep
 
 ## Setting up your templates
 
-Traverse Email Retargeting uses your branded template for all advertising email sent to your subscribers.
+We use your publisher-branded templates for all email sent to your subscribers.
 
-Before we can start sending mail, please send us your HTML header and footer.
+In order to set up a template:
 
-Please also indicate which subscriber and suppression list(s) to use for each template.
+  1. Use our `*|UNSUBSCRIBE|*` merge tag in place of your unsubscribe link.
+  2. Connect to our [unsubscribe webhook](#unsubscribe-webhook).
+  3. Let us know which subscriber and suppression list(s) to use.
+
+### Unsubscribe webhook
+
+When we receive an unsubscribe, we will call a URL you specify:
+```
+POST https://{url}/unsubscribe
+```
+
+The message body will be a JSON object with the following fields:
+
+| Name        | Value                                                                                 |
+| ------------|---------------------------------------------------------------------------------------|
+| `email`     | Email address                                                                         |
+| `listId`    | [List ID](#subscriber-list-representation)                                            |
+| `timestamp` | Unsubscribe timestamp (<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>) |
