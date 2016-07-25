@@ -12,7 +12,6 @@
     3. [Updating a suppression list](#updating-a-suppression-list)
     4. [Listing your suppression lists](#listing-your-suppression-lists)
     5. [Suppressing individual recipients](#suppressing-individual-recipients)
-    6. [Suppression webhook](#suppression-webhook)
   4. [Syncing your subscribers](#syncing-your-subscribers)
     1. [Creating a subscriber list](#creating-a-subscriber-list)
     2. [Subscriber-list representation](#subscriber-list-representation)
