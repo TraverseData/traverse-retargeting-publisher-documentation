@@ -259,7 +259,7 @@ In order to set up a template:
 
 When we receive an unsubscribe, we will call a URL you specify:
 ```
-POST https://{url}/unsubscribe
+POST https://{url}
 ```
 
 The message body will be a JSON object with the following fields:
