@@ -141,7 +141,7 @@ The response will include a JSON array of [representations](#suppression-list-re
 
 **Important!** *In order to avoid deliverability issues, it is essential that we also receive suppressions [in a weekly batch](#updating-a-suppression-list), so that no records are lost in the unlikely case of temporary system unavailability.*
 
-In order to add an individual recipient to a blacklist, upload their representation to:
+In order to add an individual recipient to a suppression list, upload their representation to:
 ```
 POST https://retargeting.traversedlp.com/v1/blacklist/{id}/hash
 ```
