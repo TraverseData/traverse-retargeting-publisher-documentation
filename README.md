@@ -84,15 +84,13 @@ Suppression lists are represented by a JSON object with the following fields::
 | ------------- |--------------------------------------|----------|
 | `id`          | Traverse-generated unique identifier | No       |
 | `name`        | Client-supplied name                 | No       |
-| `description` | Client-supplied description          | No       |
 
 For example:
 
 ```javascript
 {
   id: "401b1f0c-0307-4efa-aab0-49f57f930572",
-  name: "Master suppression list",
-  description: "Unsubscribes, complaints, bounces"
+  name: "Master suppression list"
 }
 ```
 
@@ -193,7 +191,6 @@ Subscriber lists are represented by a JSON object with the following fields::
 | ------------- |--------------------------------------|----------|
 | `id`          | Traverse-generated unique identifier | No       |
 | `name`        | Client-supplied name                 | No       |
-| `description` | Client-supplied description          | No       |
 
 For example:
 
@@ -201,7 +198,6 @@ For example:
 {
   id: "92afb81d-260e-49f0-b918-9960de0dd056",
   name: "openers",
-  description: "Subscribers who have opened in the past 60 days"
 }
 ```
 
