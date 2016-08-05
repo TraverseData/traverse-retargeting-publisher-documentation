@@ -6,7 +6,7 @@
   2. [Getting started](#getting-started)
     1. [Authentication](#authentication)
     2. [Error handling](#error-handling)
-  3. [Syncing your suppression list(s)](#syncing-your-suppression-lists)
+  3. [Syncing your suppressions](#syncing-your-suppression-lists)
     1. [Creating a suppression list](#creating-a-suppression-list)
     2. [Suppression-list representation](#suppression-list-representation)
     3. [Updating a suppression list](#updating-a-suppression-list)
@@ -52,7 +52,7 @@ While we make every attempt to maintain the availability of our system, unexpect
  4. Otherwise, treat any unexpected response, status code, timeout or exception as a *5xx*.
  5. Log your requests and replies, and monitor for and review any failures.
 
-## Syncing your suppression list(s)
+## Syncing your suppressions
 
 In order to sync a suppression list:
 
@@ -162,7 +162,7 @@ For example:
 }
 ```
 
-## Syncing your subscriber list(s)
+## Syncing your subscribers
 
 In order to sync a subscriber list:
 
