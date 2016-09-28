@@ -124,6 +124,21 @@ We will post it JSON objects with the following properties:
 | `campaignId` | Campaign ID |
 | `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
 | `emailSha1Lower` | MD5 hash of trimmed, lowercased email address |
+| `advertiserProperties` | Custom advertiser properties (*advanced*) |
+
+For example:
+
+```javascript
+{
+  campaignId: "6a11644c-690d-4bf3-bb19-4c3efba5a5a5"
+  emailMd5Lower: "1105677c8d9decfa1e36a73ff5fb5531",
+  emailSha1Lower: "ba9d46a037766855efca2730031bfc5db095c654",
+  advertiserProperties: {
+    impressionId: "f53f6078-f802-4c98-90ca-e90aa56995ab"
+  }
+}
+```
+
 
 ### Batch campaign requests
 
