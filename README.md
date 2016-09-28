@@ -4,7 +4,7 @@
 
   1. [Overview](#overview)
   2. [Getting started](#getting-started)
-    1. [Authentication](#authentication)
+    1. [Security](#authentication)
     2. [Error handling](#error-handling)
   3. [Syncing your suppressions](#syncing-your-suppression-lists)
     1. [Creating a suppression list](#creating-a-suppression-list)
@@ -29,18 +29,18 @@ Traverse Email Retargeting allows marketers to send publisher-branded email adve
 
 To get started with Traverse Email Retargeting:
 
- 1. [Get credentials](#authentication).
+ 1. [Get credentials](#security).
  2. [Review the error-handling guidance](#error-handling).
  3. [Sync your suppression list(s)](#syncing-your-suppression-lists).
  4. [Sync your subscribers](#syncing-your-subscribers).
  5. [Listen for unsubscribes](#unsubscribe-webhook).
  6. [Set up your template(s)](#setting-up-your-templates).
 
-### Authentication
+### Security
 
-All API calls are authorized via <a href="https://tools.ietf.org/html/rfc6750">OAuth 2.0 bearer tokens</a>.*
+All API calls are authorized via <a href="https://tools.ietf.org/html/rfc6750">OAuth 2.0 bearer tokens</a>.
 
-Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact Traverse</a> for credentials.
+Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> for a token.
 
 ### Error handling
 
