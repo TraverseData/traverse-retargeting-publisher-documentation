@@ -84,16 +84,7 @@ ba9d46a037766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531
 
 A successful response will have a 2xx status code.
 
-### Listing your suppression lists
-
-To list your suppression lists:
-```
-GET https://retargeting.traversedlp.com/v1/blacklists
-```
-
-The response will include a JSON array of [representations](#suppression-list-representation).
-
-## Suppressing individual recipients
+## Adding individual subscribers
 
 **Important!** *In order to avoid deliverability issues, it is essential that we also receive suppressions [in a weekly batch](#updating-a-suppression-list), so that no records are lost in the unlikely case of temporary system unavailability.*
 
@@ -118,21 +109,7 @@ For example:
 }
 ```
 
-## Syncing your subscribers
-
-In order to sync a subscriber list:
-
- 1. [Create the list](#creating-a-subscriber-list).
- 2. [Upload its contents](#updating-a-subscriber-list).
- 3. Repeat (automate) step 2 at least once per month.
-
-### Creating a subscriber list
-
-*Creating subscriber lists programmatically is not yet supported.*
-
-In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a subscriber-list ID.
-
-### Setting up campaign templates
+## Setting up campaign templates
 
 *Managing campaign templates programmatically is not yet supported.*
 
