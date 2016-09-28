@@ -104,10 +104,6 @@ emailMd5Lower,emailSha1Lower
 380236b305e0e37b2bfae587966c34e2,52245908b2816145e7b101c4304982c6f33df9e44,
 ```
 
-## Setting up campaign templates
-
-*Campaign templates are not yet supported.*
-
 ## Consuming campaign requests
 
 We create a campaign request when an advertiser wants to send a campaign to one of your subscribers.
