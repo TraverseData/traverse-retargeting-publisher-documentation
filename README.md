@@ -117,7 +117,7 @@ There are two ways to consume campaign requests:
 
 To receive campaign requests in real-time, create an HTTPS listener and <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">let us know the URL</a>.
 
-We will POST it JSON objects with the following properties:
+We will POST JSON objects with the following properties to the URL:
 
 | Property | Description |
 |----------|-------------|
