@@ -42,11 +42,11 @@ While we make every attempt to maintain the availability of our system, unexpect
 
 ## Syncing your subscribers
 
-In order to sync your subscribers:
+To sync your subscribers:
 
  1. [Create a subscriber list](#creating-a-subscriber-list).
  2. [Send us new subscribers in real time](#adding-individual-subscribers).
- 2. [Upload your current subscribers in batch](#adding-subscribers-in-batch).
+ 2. [Upload the rest of your subscribers in batch](#adding-multiple-subscribers).
 
 ### Creating a subscriber list
 
@@ -56,15 +56,15 @@ In the meantime, please <a href="mailto:Traverse Operations <operations@traverse
 
 ### Adding individual subscribers
 
-In order to add a subscriber to a list, POST its representation to the following endpoint:
+To add a subscriber to a list, upload its representation use the following endpoint:
 
 ```
-https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/hash
+POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/hashes
 ```
 
 The representation should be a JSON object with one or more of the following properties:
 
-| Name | Value |
+| Property | Value |
 |------|-------|
 | `email` | Email address (*N.B.* we will hash before storing).
 | `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
@@ -74,16 +74,16 @@ For example:
 
 ```javascript
 {
-  emailMd5Lower: "ba9d46a037766855efca2730031bfc5db095c654",
-  emailSha1Lower: "1105677c8d9decfa1e36a73ff5fb5531"
+  emailMd5Lower: "1105677c8d9decfa1e36a73ff5fb5531",
+  emailSha1Lower: "ba9d46a037766855efca2730031bfc5db095c654"
 }
 ```
 
-## Adding subscribers in batch.
+## Adding multiple subscribers.
 
-To add multiple subscribers, upload a CSV:
+To add multiple subscribers, upload a CSV to the following endpoint:
 ```
-PUT https://retargeting.traversedlp.com/v1/blacklists/{id}/hashes
+POST https://retargeting.traversedlp.com/v1/list/{id}/hashes
 ```
 
 Format:
@@ -91,23 +91,20 @@ Format:
  1. Commas, quotes and line terminators per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
  2. A  header row, consisting of the column names, is required.
  3. <a id="f1">At least one of the `emailMdLower` or `emailSha1Lower` columns is required.</a>
- 4. Additional columns should not be included, and will be ignored.
 
-Columns:
+Include one or more of the following columns:
 
-| Name             | Value                                           | Required                |
-|------------------|-------------------------------------------------|-------------------------|
-| `emailMd5Lower`  | MD5 hash of trimmed, lowercased email address   | No<sup id="a1">[3](#f1) |
-| `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address | No<sup id="a1">[3](#f1) |
+| Column | Description |
+|------|-------|----------|
+| `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
+| `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address |
 
 For example:
 ```
 emailMd5Lower,emailSha1Lower
-ba9d46a037766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531
+ba9d46a037a766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531
 52245908b2816145e7b101c4304982c6f33df9e4,380236b305e0e37b2bfae587966c34e2
 ```
-
-A successful response will have a 2xx status code.
 
 ## Setting up campaign templates
 
@@ -116,4 +113,3 @@ A successful response will have a 2xx status code.
 In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a campaign-template ID.
 
 ## Receiving campaign requests
-
