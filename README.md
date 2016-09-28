@@ -108,7 +108,7 @@ emailMd5Lower,emailSha1Lower
 
 We create a campaign request when an advertiser wants to send a campaign to one of your subscribers.
 
-There are two ways to receive campaign requests:
+There are two ways to consume campaign requests:
 
  1. [Real time](#campaign-request-listener).
  2. [Batch](#batch-campaign-requests).
