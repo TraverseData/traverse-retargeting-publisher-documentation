@@ -110,10 +110,10 @@ We create a campaign request when an advertiser wants to send a campaign to one 
 
 There are two ways to consume campaign requests:
 
- 1. [Real time](#campaign-request-listener).
+ 1. [Real time](#real-time-campaign-request-listener).
  2. [Batch](#batch-campaign-requests).
  
-### Campaign-request listener
+### Real-time campaign-request listener
 
 To receive campaign requests in real-time, create an HTTPS listener and <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">let us know the URL</a>.
 
