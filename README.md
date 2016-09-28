@@ -42,10 +42,12 @@ While we make every attempt to maintain the availability of our system, unexpect
 
 ## Syncing your subscribers
 
+Subscribers 
+
 In order to sync your subscribers:
 
  1. [Create a subscriber list](#creating-a-subscriber-list).
- 2. [Send us your new subscribers in real time](#adding-individual-recipients).
+ 2. [Send us new subscribers in real time](#adding-individual-subscribers).
  2. [Upload your current subscribers in batch](#adding-subscribers-in-batch).
 
 ### Creating a subscriber list
@@ -53,6 +55,33 @@ In order to sync your subscribers:
 *Creating exclusion lists programmatically is not yet supported.*
 
 In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a subscriber-list ID.
+
+## Adding individual subscribers
+
+In order to add a subscriber to a list, pass a JSON object with one or more of the following properties:
+
+| Name | Value |
+|------|-------|
+| `email` | Email address (*N.B.* we will hash before storing).
+| `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
+| `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address |
+
+to the following endpoint:
+
+```
+POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/hash
+```
+
+Individual subscribers are represented by a JSON object with <a id="f1">(*) one or more of the following fields</a>:
+
+For example:
+
+```javascript
+{
+  emailMd5Lower: "ba9d46a037766855efca2730031bfc5db095c654",
+  emailSha1Lower: "1105677c8d9decfa1e36a73ff5fb5531"
+}
+```
 
 ### Adding subscribers in batch.
 
@@ -83,31 +112,6 @@ ba9d46a037766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531
 ```
 
 A successful response will have a 2xx status code.
-
-## Adding individual subscribers
-
-**Important!** *In order to avoid deliverability issues, it is essential that we also receive suppressions [in a weekly batch](#updating-a-suppression-list), so that no records are lost in the unlikely case of temporary system unavailability.*
-
-In order to add an individual recipient to a suppression list, upload their representation to:
-```
-POST https://retargeting.traversedlp.com/v1/blacklist/{id}/hash
-```
-
-Individual recipients on a suppression list are represented by a JSON object with <a id="f1">(*) one or more of the following fields</a>:
-
-| Name             | Value                                           | Required                |
-|------------------|-------------------------------------------------|-------------------------|
-| `emailMd5Lower`  | MD5 hash of trimmed, lowercased email address   | No<sup id="a1">[*](#f2) |
-| `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address | No<sup id="a1">[*](#f2) |
-
-For example:
-
-```javascript
-{
-  emailMd5Lower: "ba9d46a037766855efca2730031bfc5db095c654",
-  emailSha1Lower: "1105677c8d9decfa1e36a73ff5fb5531"
-}
-```
 
 ## Setting up campaign templates
 
