@@ -4,9 +4,11 @@
 
   1. [Overview](#overview)
   2. [Getting started](#getting-started)
-  3. [Security](#security)
-  4. [Best practices](#best-practices)
-  5. [
+  3. [Best practices](#best-practices)
+  4. [Security](#security)
+  5. [Syncing your subscribers](#syncing-your-subscribers)
+  6. [Setting up campaign templates](#setting-up-campaign-templates)
+  6. [Receiving campaign requests](#receiving-campaign-requests)
 
 ## Overview
 
@@ -16,20 +18,19 @@ Traverse Email Retargeting allows marketers to send publisher-branded email adve
 
 To get started with Traverse Email Retargeting:
 
- 1. [Get credentials](#security).
- 2. [Review the best practices](#best-practices).
- 3. [Sync your suppression list(s)](#syncing-your-suppression-lists).
- 4. [Sync your subscribers](#syncing-your-subscribers).
- 5. [Listen for unsubscribes](#unsubscribe-webhook).
- 6. [Set up your template(s)](#setting-up-your-templates).
+ 1. [Review the best practices](#best-practices).
+ 2. [Get credentials](#security).
+ 3. [Sync your subscribers](#syncing-your-subscribers).
+ 4. [Set up a campaign template](#setting-up-campaign-templates).
+ 5. [Receive campaign requests](#receiving-campaign-requests).
 
-### Security
+## Security
 
 All API calls are authorized via <a href="https://tools.ietf.org/html/rfc6750">OAuth 2.0 bearer tokens</a>.
 
 Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> for a token.
 
-### Best practices
+## Best practices
 
 While we make every attempt to maintain the availability of our system, unexpected errors may occur:
 
@@ -39,53 +40,23 @@ While we make every attempt to maintain the availability of our system, unexpect
  4. Otherwise, treat any unexpected response, status code, timeout or exception as a *5xx*.
  5. Log your requests and replies, and monitor for and review any failures.
 
-## Syncing your suppressions
+## Syncing your subscribers
 
-In order to sync a suppression list:
+In order to sync your subscribers:
 
- 1. [Create the list](#creating-a-suppression-list).
- 2. [Upload its contents](#updating-a-suppression-list).
- 3. Repeat (automate) step 2 at least once per week.
- 4. [Send us any new suppressions in real time](#suppressing-individual-recipients).
+ 1. [Create a subscriber list](#creating-a-subscriber-list).
+ 2. [Send us your new subscribers in real time](#adding-individual-recipients).
+ 2. [Upload your current subscribers in batch](#adding-subscribers-in-batch).
 
-### Creating a suppression list
+### Creating a subscriber list
 
-To create a suppression list, upload a [representation](#suppression-list-representation), without an `id`, to:
-```
-POST https://retargeting.traversedlp.com/v1/blacklist
-```
+*Creating exclusion lists programmatically is not yet supported.*
 
-The response will contain an updated [representation](#suppression-list-representation), with an `id`.
+In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a subscriber-list ID.
 
-Notes:
+### Adding subscribers in batch.
 
- 1. Do not include the `id`. The system will assign one for you.
- 2. This just creates an empty list. You still need to [upload its contents](#updating-a-suppression-list).
- 3. Make note of the returned `id` so that you can update the list.
-
-### Suppression-list representation
-
-Suppression lists are represented by a JSON object with the following fields::
-
-| Name          | Value                                | Required |
-| ------------- |--------------------------------------|----------|
-| `id`          | Traverse-generated unique identifier | No       |
-| `name`        | Client-supplied name                 | No       |
-
-For example:
-
-```javascript
-{
-  id: "401b1f0c-0307-4efa-aab0-49f57f930572",
-  name: "Master suppression list"
-}
-```
-
-### Updating a suppression list
-
-**Important!** *In order to avoid deliverability issues, it is essential that we also receive new suppressions [in real-time](#suppressing-individual-recipients), so that they can be applied immediately.*
-
-To update a suppression list's recipients, upload a CSV:
+To add multiple subscribers, upload a CSV:
 ```
 PUT https://retargeting.traversedlp.com/v1/blacklists/{id}/hashes
 ```
@@ -157,98 +128,15 @@ In order to sync a subscriber list:
 
 ### Creating a subscriber list
 
-To create a subscriber list, upload a [representation](#subscriber-list-representation), without an `id`, to:
-```
-POST https://retargeting.traversedlp.com/v1/list
-```
+*Creating subscriber lists programmatically is not yet supported.*
 
-The response will contain an updated [representation](#subscriber-list-representation), with an `id`.
+In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a subscriber-list ID.
 
-Notes:
+### Setting up campaign templates
 
- 1. Do not include the `id`. The system will assign one for you.
- 2. This just creates an empty list. You still need to [upload its contents](#updating-a-subscriber-list).
- 3. Make note of the returned `id` so that you can update the list.
+*Managing campaign templates programmatically is not yet supported.*
 
-### Subscriber-list representation
+In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a campaign-template ID.
 
-Subscriber lists are represented by a JSON object with the following fields::
+## Receiving campaign requests
 
-| Name          | Value                                | Required |
-| ------------- |--------------------------------------|----------|
-| `id`          | Traverse-generated unique identifier | No       |
-| `name`        | Client-supplied name                 | No       |
-
-For example:
-
-```javascript
-{
-  id: "92afb81d-260e-49f0-b918-9960de0dd056",
-  name: "openers",
-}
-```
-
-### Updating a subscriber list
-
-To update a subscriber list's recipients, upload a CSV:
-```
-PUT https://retargeting.traversedlp.com/v1/lists/{id}/hashes
-```
-
-Format:
-
- 1. Commas, quotes and line terminators per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
- 2. A  header row, consisting of the column names, is required.
- 3. Any columns not listed below should not be included, and will be ignored.
-
-Columns:
-
-| Name             | Value                              | Required |
-|------------------|------------------------------------|----------|
-| `email`          | Email address                      | Yes      |
-| `ip`             | Opt-in IP address                  | Yes      |
-| `source`         | Opt-in source (URL or domain name) | Yes      |
-| `timestamp`      | Opt-in timestamp (<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> date/timestamp, nominally UTC) | Yes |
-
-For example:
-```
-email,ip,source,timestamp
-somebody@example.com,1.2.3.4,example.com,2016-07-20Z
-operations@traversedlp.com,5.6.7.8,example.com,2015-01-23T20:21:26Z
-```
-
-A successful response will have a 2xx status code.
-
-### Listing your subscriber lists
-
-To list your subscriber lists:
-```
-GET https://retargeting.traversedlp.com/v1/lists
-```
-
-The response will include a JSON array of [representations](#subscriber-list-representation).
-
-## Setting up your templates
-
-We use your publisher-branded templates for all email sent to your subscribers.
-
-In order to set up a template:
-
-  1. Use our `*|UNSUBSCRIBE|*` merge tag in place of your unsubscribe link.
-  2. Connect to our [unsubscribe webhook](#unsubscribe-webhook).
-  3. Let us know which subscriber and suppression list(s) to use.
-
-### Unsubscribe webhook
-
-When we receive an unsubscribe, we will call a URL you specify:
-```
-POST https://{url}
-```
-
-The message body will be a JSON object with the following fields:
-
-| Name        | Value                                                                                 |
-| ------------|---------------------------------------------------------------------------------------|
-| `email`     | Email address                                                                         |
-| `listId`    | [List ID](#subscriber-list-representation)                                            |
-| `timestamp` | Unsubscribe timestamp (<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>) |
