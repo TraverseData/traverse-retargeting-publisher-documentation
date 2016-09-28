@@ -7,7 +7,6 @@
   3. [Best practices](#best-practices)
   4. [Security](#security)
   5. [Syncing your subscribers](#syncing-your-subscribers)
-  6. [Setting up campaign templates](#setting-up-campaign-templates)
   6. [Receiving campaign requests](#receiving-campaign-requests)
 
 ## Overview
@@ -21,8 +20,7 @@ To get started with Traverse Email Retargeting:
  1. [Review the best practices](#best-practices).
  2. [Get credentials](#security).
  3. [Sync your subscribers](#syncing-your-subscribers).
- 4. [Set up a campaign template](#setting-up-campaign-templates).
- 5. [Receive campaign requests](#receiving-campaign-requests).
+ 4. [Consume campaign requests](#consume-campaign-requests).
 
 ## Security
 
@@ -92,25 +90,45 @@ The message body should be a CSV:
  2. A  header row, consisting of the column names, is required.
  3. <a id="f1">At least one of the `emailMdLower` or `emailSha1Lower` columns is required.</a>
 
-It must include or more of the following columns:
+The CSV must include the following columns:
 
 | Column | Description |
 |------|-------|----------|
-| `email` | Email address (*N.B.* we will hash before storing) |
 | `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
 | `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address |
 
 For example:
 ```
 emailMd5Lower,emailSha1Lower
-ba9d46a037a766855efca2730031bfc5db095c654,1105677c8d9decfa1e36a73ff5fb5531
-52245908b2816145e7b101c4304982c6f33df9e4,380236b305e0e37b2bfae587966c34e2
+1105677c8d9decfa1e36a73ff5fb5531,ba9d46a037a766855efca2730031bfc5db095c654
+380236b305e0e37b2bfae587966c34e2,52245908b2816145e7b101c4304982c6f33df9e44,
 ```
 
 ## Setting up campaign templates
 
-*Managing campaign templates programmatically is not yet supported.*
+*Campaign templates are not yet supported.*
 
-In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a campaign-template ID.
+## Consuming campaign requests
 
-## Receiving campaign requests
+We create a campaign request when an advertiser wants to send a campaign to one of your subscribers.
+
+There are two ways to receive campaign requests:
+
+ 1. [Real time](#campaign-request-listener).
+ 2. [Batch](#batch-campaign-requests).
+ 
+### Campaign-request listener
+
+To receive campaign requests in real-time, create an HTTPS listener and <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">let us know the URL</a>.
+
+We will post it JSON objects with the following properties:
+
+| Property | Description |
+|----------|-------------|
+| `campaignId` | Campaign ID |
+| `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
+| `emailSha1Lower` | MD5 hash of trimmed, lowercased email address |
+
+### Batch campaign requests
+
+*Batch campaign requests are not yet supported.*
