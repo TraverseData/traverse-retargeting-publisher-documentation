@@ -11,7 +11,7 @@
 
 ## Overview
 
-Traverse Email Retargeting allows marketers to trigger sending publisher-branded advertisements to your email subscribers.
+Traverse Email Retargeting allows marketers to trigger sending publisher-branded email advertisements to your subscribers.
 
 ## Getting started
 
