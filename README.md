@@ -123,7 +123,7 @@ We will POST JSON objects with the following properties to the URL:
 | `campaignId` | Campaign ID |
 | `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
 | `emailSha1Lower` | MD5 hash of trimmed, lowercased email address |
-| `advertiserProperties` | Custom advertiser properties (*optional, advanced*) |
+| `advertiserProperties` | Custom advertiser properties (*advanced*) |
 
 For example:
 
