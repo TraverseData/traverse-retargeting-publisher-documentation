@@ -77,7 +77,7 @@ For example:
 }
 ```
 
-## Adding multiple subscribers.
+## Adding multiple subscribers
 
 To add multiple subscribers to a list, use the following endpoint:
 ```
