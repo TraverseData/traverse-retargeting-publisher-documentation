@@ -48,7 +48,7 @@ To sync your subscribers:
 
 ### Creating a subscriber list
 
-*Creating exclusion lists programmatically is not yet supported.*
+*Creating subscriber lists programmatically is not yet supported.*
 
 In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a subscriber-list ID.
 
