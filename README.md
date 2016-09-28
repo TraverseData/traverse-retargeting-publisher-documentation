@@ -42,8 +42,6 @@ While we make every attempt to maintain the availability of our system, unexpect
 
 ## Syncing your subscribers
 
-Subscribers 
-
 In order to sync your subscribers:
 
  1. [Create a subscriber list](#creating-a-subscriber-list).
@@ -56,23 +54,21 @@ In order to sync your subscribers:
 
 In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a subscriber-list ID.
 
-## Adding individual subscribers
+### Adding individual subscribers
 
-In order to add a subscriber to a list, pass a JSON object with one or more of the following properties:
+In order to add a subscriber to a list, POST its representation to the following endpoint:
+
+```
+https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/hash
+```
+
+The representation should be a JSON object with one or more of the following properties:
 
 | Name | Value |
 |------|-------|
 | `email` | Email address (*N.B.* we will hash before storing).
 | `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
 | `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address |
-
-to the following endpoint:
-
-```
-POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/hash
-```
-
-Individual subscribers are represented by a JSON object with <a id="f1">(*) one or more of the following fields</a>:
 
 For example:
 
@@ -83,7 +79,7 @@ For example:
 }
 ```
 
-### Adding subscribers in batch.
+## Adding subscribers in batch.
 
 To add multiple subscribers, upload a CSV:
 ```
