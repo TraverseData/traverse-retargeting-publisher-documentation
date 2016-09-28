@@ -60,11 +60,10 @@ To add a subscriber to a list, use the following endpoint:
 POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/subscriber
 ```
 
-The message body should be a JSON object with one or more of the following properties:
+The message body should be a JSON object with the following properties:
 
 | Property | Value |
 |------|-------|
-| `email` | Email address (*N.B.* we will hash before storing).
 | `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
 | `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address |
 
