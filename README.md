@@ -79,7 +79,7 @@ For example:
 
 ## Adding multiple subscribers.
 
-To add multiple subscribers, use the following endpoint:
+To add multiple subscribers to a list, use the following endpoint:
 ```
 POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/subscribers
 ```
