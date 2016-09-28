@@ -1,4 +1,4 @@
-# Traverse Email Retargeting Publisher API
+# Traverse Email Retargeting Publisher Documentation
 
 ## Contents
 
@@ -23,7 +23,7 @@
 
 ## Overview
 
-Traverse Email Retargeting allows marketers to send publisher-branded email advertisements to your newsletter subscribers.
+Traverse Email Retargeting allows marketers to send publisher-branded email advertisements to your subscribers.
 
 ## Getting started
 
@@ -38,7 +38,7 @@ To get started with Traverse Email Retargeting:
 
 ### Authentication
 
-**Important!** *All API calls are authenticated via <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">basic auth</a>.*
+All API calls are authorized via <a href="https://tools.ietf.org/html/rfc6750">OAuth 2.0 bearer tokens</a>.*
 
 Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact Traverse</a> for credentials.
 
