@@ -56,13 +56,13 @@ In the meantime, please <a href="mailto:Traverse Operations <operations@traverse
 
 ### Adding individual subscribers
 
-To add a subscriber to a list, upload its representation use the following endpoint:
+To add a subscriber to a list, use the following endpoint:
 
 ```
-POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/hashes
+POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/subscriber
 ```
 
-The representation should be a JSON object with one or more of the following properties:
+The message body should be a JSON object with one or more of the following properties:
 
 | Property | Value |
 |------|-------|
@@ -81,21 +81,22 @@ For example:
 
 ## Adding multiple subscribers.
 
-To add multiple subscribers, upload a CSV to the following endpoint:
+To add multiple subscribers, use the following endpoint:
 ```
-POST https://retargeting.traversedlp.com/v1/list/{id}/hashes
+POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/subscribers
 ```
 
-Format:
+The message body should be a CSV:
 
  1. Commas, quotes and line terminators per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
  2. A  header row, consisting of the column names, is required.
  3. <a id="f1">At least one of the `emailMdLower` or `emailSha1Lower` columns is required.</a>
 
-Include one or more of the following columns:
+It must include or more of the following columns:
 
 | Column | Description |
 |------|-------|----------|
+| `email` | Email address (*N.B.* we will hash before storing) |
 | `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
 | `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address |
 
