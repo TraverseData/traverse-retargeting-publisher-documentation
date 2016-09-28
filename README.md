@@ -139,7 +139,7 @@ For example:
 }
 ```
 
-*Note:* If the listener does not promptly reply with an HTTP 2xx status code, we may resubmit the request later.
+*Note:* If the listener does not promptly reply with an HTTP 2xx status code, we may resubmit the request, later.
 
 ### Batch campaign requests
 
