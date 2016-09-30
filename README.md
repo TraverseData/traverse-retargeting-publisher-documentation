@@ -85,9 +85,9 @@ POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/
 
 The message body should be a CSV:
 
- 1. Commas, quotes and line terminators per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+ 1. Commas, quotes and line terminators as per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
  2. A  header row, consisting of the column names, is required.
- 3. <a id="f1">At least one of the `emailMdLower` or `emailSha1Lower` columns is required.</a>
+ 3. At least one of the `emailMdLower` or `emailSha1Lower` columns is required.
 
 The CSV must include the following columns:
 
