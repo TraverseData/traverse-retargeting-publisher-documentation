@@ -43,8 +43,8 @@ While we make every attempt to maintain the availability of our system, unexpect
 To sync your subscribers:
 
  1. [Create a subscriber list](#creating-a-subscriber-list).
- 2. [Send us new subscribers in real time](#adding-individual-subscribers).
- 2. [Upload the rest of your subscribers in batch](#adding-multiple-subscribers).
+ 2. [Connect us to a feed of your new subscribers](#adding-subscribers).
+ 2. [Upload the rest of your subscribers in batch](#adding-subscribers).
 
 ### Creating a subscriber list
 
@@ -52,15 +52,15 @@ To sync your subscribers:
 
 In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a subscriber-list ID.
 
-### Adding individual subscribers
+### Adding subscribers
 
-To add a subscriber to a list, use the following endpoint:
+To add subscribers to a list, use the following endpoint:
 
 ```
-POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/subscriber
+POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/hashes
 ```
 
-The message body should be a JSON object with the following properties:
+The message body should be an array of JSON objects, each with the following properties:
 
 | Property | Value |
 |------|-------|
@@ -70,37 +70,13 @@ The message body should be a JSON object with the following properties:
 For example:
 
 ```javascript
-{
+[{
   emailMd5Lower: "1105677c8d9decfa1e36a73ff5fb5531",
   emailSha1Lower: "ba9d46a037766855efca2730031bfc5db095c654"
-}
-```
-
-## Adding multiple subscribers
-
-To add multiple subscribers to a list, use the following endpoint:
-```
-POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/subscribers
-```
-
-The message body should be a CSV:
-
- 1. Commas, quotes and line terminators as per <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
- 2. A  header row, consisting of the column names, is required.
- 3. At least one of the `emailMdLower` or `emailSha1Lower` columns is required.
-
-The CSV must include the following columns:
-
-| Column | Description |
-|------|-------|----------|
-| `emailMd5Lower` | MD5 hash of trimmed, lowercased email address |
-| `emailSha1Lower` | SHA-1 hash of trimmed, lowercased email address |
-
-For example:
-```
-emailMd5Lower,emailSha1Lower
-1105677c8d9decfa1e36a73ff5fb5531,ba9d46a037a766855efca2730031bfc5db095c654
-380236b305e0e37b2bfae587966c34e2,52245908b2816145e7b101c4304982c6f33df9e44,
+}, {
+  emailMd5Lower: "9e3669d19b675bd57058fd4664205d2a",
+  emailSha1Lower: "e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98"
+}]
 ```
 
 ## Consuming campaign requests
