@@ -109,7 +109,8 @@ For example:
   emailMd5Lower: "1105677c8d9decfa1e36a73ff5fb5531",
   emailSha1Lower: "ba9d46a037766855efca2730031bfc5db095c654",
   advertiserProperties: {
-    impressionId: "f53f6078-f802-4c98-90ca-e90aa56995ab"
+    impressionId: "f53f6078-f802-4c98-90ca-e90aa56995ab",
+    foo: "bar"
   }
 }
 ```
