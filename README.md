@@ -57,7 +57,7 @@ In the meantime, please <a href="mailto:Traverse Operations <operations@traverse
 To add subscribers to a list, use the following endpoint:
 
 ```
-POST https://retargeting.traversedlp.com/v1/list/{YOUR-SUBSCRIBER-LIST-ID-HERE}/hashes
+POST https://retargeting.traversedlp.com/v1/lists/{YOUR-SUBSCRIBER-LIST-ID-HERE}/recipients
 ```
 
 The message body should be an array of JSON objects, each with the following properties:
