@@ -103,15 +103,15 @@ We will POST JSON objects with the following properties to the URL:
 
 For example:
 
-```javascript
+```json
 {
-  campaignId: "6a11644c-690d-4bf3-bb19-4c3efba5a5a5",
-  emailMd5Lower: "1105677c8d9decfa1e36a73ff5fb5531",
-  emailSha1Lower: "ba9d46a037766855efca2730031bfc5db095c654",
-  listIds: ["772823bd-b7be-4d23-bd78-96a577d02765"],
-  advertiserProperties: {
-    impressionId: "f53f6078-f802-4c98-90ca-e90aa56995ab",
-    foo: "bar"
+  "campaignId": "6a11644c-690d-4bf3-bb19-4c3efba5a5a5",
+  "emailMd5Lower": "1105677c8d9decfa1e36a73ff5fb5531",
+  "emailSha1Lower": "ba9d46a037766855efca2730031bfc5db095c654",
+  "listIds": ["772823bd-b7be-4d23-bd78-96a577d02765"],
+  "advertiserProperties": {
+    "impressionId": "f53f6078-f802-4c98-90ca-e90aa56995ab",
+    "foo": "bar"
   }
 }
 ```
