@@ -8,7 +8,7 @@
   1. [Overview](#overview)
   2. [Getting started](#getting-started)
   3. [API Access](#api-access)
-  4. [Syncing your subscribers](#syncing-your-subscribers)
+  4. [Syncing your lists](#syncing-your-lists)
   5. [Configuring your DNS](#configuring-dns)
   6. [Best practices](#best-practices)
 
@@ -27,7 +27,7 @@ Traverse Email Retargeting allows marketers to trigger sending publisher-branded
 To get started with Traverse Email Retargeting:
 
  1. [Get credentials](#api-access).
- 3. [Sync your subscribers](#syncing-your-subscribers).
+ 3. [Sync your lists](#syncing-your-lists).
  4. [Configure your DNS](#configuring-dns).
 
 
@@ -43,23 +43,30 @@ Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">conta
 
 <br />
 
-## Syncing your subscribers
+## Syncing Your Lists
 
-To sync your subscribers:
+Most campaigns will have two associated lists--a subscription list for individuals you would like to mail, and a suppression list for those who should be excluded. The subsription list is hosted by Traverse and periodically updated by the publisher. There are a number of different ways to set up the suppression list.
 
- 1. [Create a subscriber list](#creating-a-subscriber-list).
- 2. [Upload the rest of your subscribers in batch](#adding-subscribers).
- 3. [Connect us to a feed of your new subscribers](#adding-subscribers).
+To sync your lists:
+
+ 1. [Create a subscriber list.](#creating-a-subscriber-list)
+ 2. [Upload your current subscribers in batch.](#adding-subscribers-batch)
+ 3. [Connect us to a feed of your new subscribers.](#adding-subscribers-feed)
+ 4. [Configure your suppression list.](#suppression-list)
 
 
-### Creating a subscriber list
+### Creating a Subscriber List
 
 *Creating subscriber lists programmatically is not yet supported.*
 
 In the meantime, please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> and we will provide you a subscriber-list ID.
 
 
-### Adding subscribers
+### Adding Subscribers (Batch)
+
+The fastest way to get your subscribers to Traverse is by uploading them in bulk, either via Amazon S3 or SFTP. The file should be in CSV or TSV format. While S3 is preferred, SFTP access is provided by request. Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">reach out</a> when your subscribers are ready to be imported.
+
+### Adding Subscribers (Feed)
 
 To add subscribers to a list, use the following endpoint:
 
