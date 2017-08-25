@@ -45,17 +45,71 @@ Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">conta
 
 ## Syncing Your Lists
 
-Most campaigns will have two associated lists--a subscription list for individuals you would like to mail, and a suppression list for those who should be excluded. The subsription list is hosted by Traverse and periodically updated by the publisher. There are a number of different ways to set up the suppression list.
+Most campaigns will have two associated lists--a subscription list for individuals you would like to mail, and a suppression list for those who should be excluded. The subsription list is hosted by Traverse and periodically updated by the publisher. There are a number of different ways to set up the suppression list, and your capabilities here will determine the type of integration.
 
 To sync your lists:
 
- 1. [Create a subscriber list.](#creating-a-subscriber-list)
+ 1. [Determine your integration type.](#integration-types)
+ 2. [Configure your suppression list.](#configuring-your-suppression-list)
+ 2. [Create a subscriber list.](#creating-a-list)
  2. [Upload your current subscribers in batch.](#adding-subscribers-batch)
- 3. [Connect us to a feed of your new subscribers.](#adding-subscribers-feed)
- 4. [Configure your suppression list.](#suppression-list)
+ 3. [Connect us to a feed of your new subscribers.](#adding-subscribers-Individual)
+
+### Types of Integrations
+
+Traverse supports working with suppression lists in a number of different ways. They are listed below in order of preference.
+
+- __Subscription Lookup:__
+
+    Publisher hosts and maintains the suppression list and provides Traverse with a [subscription lookup endpoint](subscription-lookup-endpoint). Publisher provides Traverse with an inclusion list of hashed emails (both MD5 and SHA1), and uses Traverse's [recipient endpoint](#adding-subscribers-individual) to include more recipients after the initial bulk upload.
+
+- __Traverse-Hosted List:__
+
+    Traverse hosts the suppression list and the publisher updates this list programmatically. This requires the publisher to upload the initial subscriber list and make updates with plaintext emails rather than hashes. The supression list and updates can be email hashes.
+
+- __3rd Party List:__
+
+    Publisher provides Traverse access to a 3rd party unsubscribe service such as UnsubCentral. The recipients on your subscription list may need to be in plaintext depending on how this 3rd party service is implemented. Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">reach out</a> to Traverse operations to discuss the specifics of your 3rd party service.
 
 
-### Creating a Subscriber List
+### Configuring Your Suppression List
+
+
+#### Suppression Lookup Endpoint
+
+A subscription lookup endpoint should allow Traverse to provide an email hash in an HTTP request, and should respond with the subscription status of the corresponding recipient. This endpoint should return at minimum the plaintext email address, first name, which lists they're currently mailable under, if any, and the CAN-SPAM information (IP, timestamp) for each.
+
+When Traverse wants to dispatch a message to a potential recipient, we use this endpoint to look up their details, and then dispatch the message.
+
+
+Lifescript to provide Traverse credentials for accessing their Ongage account, or a separate Ongage account attached to their mailing platform.
+Traverse will only send test messages, and just to themselves, until Lifescript gives the go-ahead.
+You can build the endpoint however you'd like, but JSON would be excellent. Here's a motivating example of what you might return:
+```
+[
+  { // First subscription
+    email: 'foo@bar.com',
+    firstName: 'John',
+    listId: 'lifescript_list_id_1',
+    ip: '1.2.3.4'
+    timestamp: '2017-07-07T21:27:02+00:00' // ISO-8601 is great.
+  },
+  { // Another subscription
+    email: 'foo@bar.com',
+    firstName: 'Jonathan', // Maybe they provided a different name for this list.
+    listId: 'lifescript_list_id_2',
+    ip: '2.3.4.5',
+    timestamp: '2015-03-02T12:18:01+00:00'
+  }
+]
+```
+or if they're not subscribed to any list, or you don't even have a match for the hash:
+
+[] // (No subscriptions)
+
+
+
+### Creating a List
 
 *Creating subscriber lists programmatically is not yet supported.*
 
@@ -66,15 +120,15 @@ In the meantime, please <a href="mailto:Traverse Operations <operations@traverse
 
 The fastest way to get your subscribers to Traverse is by uploading them in bulk, either via Amazon S3 or SFTP. The file should be in CSV or TSV format. While S3 is preferred, SFTP access is provided by request. Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">reach out</a> when your subscribers are ready to be imported.
 
-### Adding Subscribers (Feed)
+### Adding Subscribers (Individual)
 
-To add subscribers to a list, use the following endpoint:
+To add a subscriber to a list, use the following endpoint:
 
 ```
 POST https://retargeting.traversedlp.com/v1/lists/{YOUR-SUBSCRIBER-LIST-ID-HERE}/recipients
 ```
 
-The message body should be an array of JSON objects, each with the following properties:
+The message body should be an array containing a single JSON object with the following properties:
 
 | Property | Value |
 |------|-------|
@@ -87,11 +141,9 @@ For example:
 [{
   emailMd5Lower: "1105677c8d9decfa1e36a73ff5fb5531",
   emailSha1Lower: "ba9d46a037766855efca2730031bfc5db095c654"
-}, {
-  emailMd5Lower: "9e3669d19b675bd57058fd4664205d2a",
-  emailSha1Lower: "e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98"
 }]
 ```
+
 
 
 <br />
