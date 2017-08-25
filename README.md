@@ -8,9 +8,10 @@
   1. [Overview](#overview)
   2. [Getting started](#getting-started)
   3. [API Access](#api-access)
-  4. [Syncing your lists](#syncing-your-lists)
-  5. [Configuring your DNS](#configuring-dns)
-  6. [Best practices](#best-practices)
+  4. [Syncing Lists](#syncing-your-lists)
+  5. [Configuring DNS](#configuring-dns)
+  6. [Publisher Header/Footer](#publisher-header-and-footer)
+  7. [Best practices](#best-practices)
 
 
 <br />
@@ -27,8 +28,9 @@ Traverse Email Retargeting allows marketers to trigger sending publisher-branded
 To get started with Traverse Email Retargeting:
 
  1. [Get credentials](#api-access).
- 3. [Sync your lists](#syncing-your-lists).
- 4. [Configure your DNS](#configuring-dns).
+ 2. [Sync your lists](#syncing-your-lists).
+ 3. [Configure your DNS](#configuring-dns).
+ 4. [Provide your branded header/footer](#publisher-header-and-footer).
 
 
 <br />
@@ -45,7 +47,7 @@ Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">conta
 
 ## Syncing Your Lists
 
-Most campaigns will have two associated lists--a subscription list for individuals you would like to mail, and a suppression list for those who should be excluded. The subsription list is hosted by Traverse and periodically updated by the publisher. There are a number of different ways to set up the suppression list, and your capabilities here will determine the type of integration.
+Most campaigns will have two associated lists--a subscription list for individuals you would like to mail, and a suppression list for those who should be excluded. The subsription list is hosted by Traverse and periodically updated by the publisher. There are a number of different ways to set up the suppression list, and your capabilities here will determine specifics about the rest of the integration.
 
 To sync your lists:
 
@@ -57,34 +59,39 @@ To sync your lists:
 
 ### Types of Integrations
 
-Traverse supports working with suppression lists in a number of different ways. They are listed below in order of preference.
+Traverse supports working with suppression lists in a number of different ways. A publisher's integration type will depend on which method they are able to support.
 
 - __Subscription Lookup:__
 
-    Publisher hosts and maintains the suppression list and provides Traverse with a [subscription lookup endpoint](subscription-lookup-endpoint). Publisher provides Traverse with an inclusion list of hashed emails (both MD5 and SHA1), and uses Traverse's [recipient endpoint](#adding-subscribers-individual) to include more recipients after the initial bulk upload.
+    This is the preferred method of integration. The suppression list is hosted and maintained by the publisher, who provides Traverse with a [subscription lookup endpoint](subscription-lookup-endpoint). The publisher provides Traverse with an inclusion list of hashed emails (both MD5 and SHA1), and uses Traverse's [recipient endpoint](#adding-subscribers-individual) to include more recipients after the initial bulk upload.
 
-- __Traverse-Hosted List:__
+- __Traverse-Hosted:__
 
-    Traverse hosts the suppression list and the publisher updates this list programmatically. This requires the publisher to upload the initial subscriber list and make updates with plaintext emails rather than hashes. The supression list and updates can be email hashes.
+    Traverse hosts the suppression list and the publisher updates this list programmatically. This requires the publisher to upload the initial subscriber list and make updates with plaintext emails rather than hashes. The supression list and updates can be either plaintext emails or email hashes.
 
-- __3rd Party List:__
+- __3rd Party:__
 
-    Publisher provides Traverse access to a 3rd party unsubscribe service such as UnsubCentral. The recipients on your subscription list may need to be in plaintext depending on how this 3rd party service is implemented. Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">reach out</a> to Traverse operations to discuss the specifics of your 3rd party service.
+    Publisher provides Traverse access to a 3rd party unsubscribe service such as UnsubCentral or the publisher's existing ESP. The recipients on your subscription list may need to be in plaintext depending on how this 3rd party service is implemented. Please <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">reach out</a> to Traverse operations to discuss the specifics of your 3rd party service before putting together the initial subscriber list.
 
 
 ### Configuring Your Suppression List
 
+For an integration that will use a __Traverse-Hosted__ suppression list, follow the steps in the ["Creating a List"](#creating-a-list) section below twice (once each for the subscription and suppression lists). Publishers using a __Subscription Lookup__ integration will follow the directions for building out a [Suppression Lookup Endpoint](#suppression-lookup-endpoint), and then continue on to [create a list](#creating-a-list)
 
 #### Suppression Lookup Endpoint
 
-A subscription lookup endpoint should allow Traverse to provide an email hash in an HTTP request, and should respond with the subscription status of the corresponding recipient. This endpoint should return at minimum the plaintext email address, first name, which lists they're currently mailable under, if any, and the CAN-SPAM information (IP, timestamp) for each.
+A subscription lookup endpoint should allow Traverse to provide an email hash in an HTTP request, and should respond with the subscription status of the corresponding recipient. When Traverse wants to dispatch a message to a potential recipient, we use this endpoint to look up their details, and then dispatch the message.
 
-When Traverse wants to dispatch a message to a potential recipient, we use this endpoint to look up their details, and then dispatch the message.
+The HTTP endpoint should allow for an email hash to be provided like so. Ideally, the endpoint could look up an email based on either SHA1 or MD5 hash.
 
+`https://www.publisher.com/subscription/lookup?md5={md5-hashed-email}`
 
-Lifescript to provide Traverse credentials for accessing their Ongage account, or a separate Ongage account attached to their mailing platform.
-Traverse will only send test messages, and just to themselves, until Lifescript gives the go-ahead.
-You can build the endpoint however you'd like, but JSON would be excellent. Here's a motivating example of what you might return:
+OR
+
+`https://www.publisher.com/subscription/lookup?sha1={sha1-hashed-email}`
+
+This endpoint should return at minimum the plaintext email address, first name, which lists they're currently mailable under, if any, and the CAN-SPAM information (IP, timestamp) for each. The response should be in JSON, and consist of an Array of Objects, each describing a subscription:
+
 ```
 [
   { // First subscription
@@ -103,10 +110,11 @@ You can build the endpoint however you'd like, but JSON would be excellent. Here
   }
 ]
 ```
-or if they're not subscribed to any list, or you don't even have a match for the hash:
+If the recipient is not subscribed to any list, or if the publisher doesn't have a match for the hash:
 
+```
 [] // (No subscriptions)
-
+```
 
 
 ### Creating a List
@@ -169,6 +177,16 @@ Traverse uses Amazon SES to send email. You will need to make a few minor DNS up
     The final step is to configure your subdomain to demonstrate ownership and configure DKIM. This is handled by configuring a number of TXT records for the domain. These settings are generated
     on a per-domain process, so <a href="mailto:Traverse Operations <operations@traversedlp.com&gt">contact us</a> when you are ready to make the changes.
 
+
+<br />
+
+## Publisher Header and Footer
+
+Publisher provides a header/footer which will contain dynamic advertiser content. Travese needs:
+
+- html creative, all images
+- unsubscribe link
+- physical address
 
 <br />
 
